@@ -1,0 +1,30 @@
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  port: ${SERVER_PORT:8082}
+  servlet.session:
+    timeout: 30m
+    cookie:
+      http-only: true
+      same-site: strict
+spring:
+  application.name: metrics-agent
+  datasource:
+    url: jdbc:h2:file:./data/metrics;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ${DB_PASSWORD:}
+  sql.init.mode: always
+  jackson.deserialization.fail-on-unknown-properties: true
+  data.redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+    connect-timeout: 1s
+    timeout: 1s
+app:
+  demo-password: ${DEMO_PASSWORD:Demo123!}
+  redis-enabled: ${REDIS_ENABLED:false}
+  ai:
+    enabled: ${AI_ENABLED:false}
+    api-key: ${AI_API_KEY:}
+    base-url: ${AI_BASE_URL:https://api.openai.com}
+    model: ${AI_MODEL:gpt-4o-mini}

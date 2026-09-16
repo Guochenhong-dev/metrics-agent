@@ -1,0 +1,458 @@
+{
+  "id": "78c92132-c1d1-4e4b-bc7d-44b188cad313",
+  "owner": "demo",
+  "scope": {
+    "owner": "demo",
+    "regions": [
+      "华东",
+      "华北",
+      "华南"
+    ]
+  },
+  "question": "最近7天净实收为什么下降，按区域分析",
+  "createdAt": "2026-09-15T06:53:46.928474822Z",
+  "analysis": {
+    "plan": {
+      "metric": "net_receipts",
+      "dimension": "region",
+      "startDate": "2026-08-25",
+      "endDate": "2026-08-31",
+      "region": null,
+      "category": null,
+      "channel": null,
+      "status": null
+    },
+    "dataset": {
+      "version": "demo-v1-20260831",
+      "startDate": "2026-05-04",
+      "endDate": "2026-08-31",
+      "updatedAt": "2026-09-15T06:53:45.712541406Z"
+    },
+    "metric": {
+      "key": "net_receipts",
+      "label": "净实收",
+      "unit": "元",
+      "rate": false,
+      "formula": "支付额－退款额",
+      "timeBasis": "支付按支付日、退款按退款日",
+      "caveat": "现金流口径，不是会计确认收入。退款可来自更早支付的订单，净实收可能为负。"
+    },
+    "previousStart": "2026-08-18",
+    "previousEnd": "2026-08-24",
+    "current": {
+      "value": 1119060,
+      "numerator": 111906000,
+      "denominator": 0,
+      "rows": 844
+    },
+    "previous": {
+      "value": 1470100,
+      "numerator": 147010000,
+      "denominator": 0,
+      "rows": 1080
+    },
+    "difference": -351040,
+    "relativeChangePercent": -23.878647711040067,
+    "anomaly": true,
+    "anomalyRule": "相对变化绝对值达到20%时提示波动；基期为0或无记录时不判定",
+    "primary": [
+      {
+        "name": "华东",
+        "current": 119510,
+        "previous": 470550,
+        "difference": -351040,
+        "contribution": -351040,
+        "contributionPercent": 100
+      },
+      {
+        "name": "华北",
+        "current": 488150,
+        "previous": 488150,
+        "difference": 0,
+        "contribution": 0,
+        "contributionPercent": 0
+      },
+      {
+        "name": "华南",
+        "current": 511400,
+        "previous": 511400,
+        "difference": 0,
+        "contribution": 0,
+        "contributionPercent": 0
+      }
+    ],
+    "secondary": [
+      {
+        "name": "空调",
+        "current": 490620,
+        "previous": 636850,
+        "difference": -146230,
+        "contribution": -146230,
+        "contributionPercent": 41.656221513217865
+      },
+      {
+        "name": "洗衣机",
+        "current": 371270,
+        "previous": 491150,
+        "difference": -119880,
+        "contribution": -119880,
+        "contributionPercent": 34.149954421148585
+      },
+      {
+        "name": "热水器",
+        "current": 257170,
+        "previous": 342100,
+        "difference": -84930,
+        "contribution": -84930,
+        "contributionPercent": 24.193824065633546
+      }
+    ],
+    "secondaryDimension": "category",
+    "trend": [
+      {
+        "currentDate": "2026-08-25",
+        "previousDate": "2026-08-18",
+        "current": 182590,
+        "previous": 203150
+      },
+      {
+        "currentDate": "2026-08-26",
+        "previousDate": "2026-08-19",
+        "current": 154230,
+        "previous": 200900
+      },
+      {
+        "currentDate": "2026-08-27",
+        "previousDate": "2026-08-20",
+        "current": 155470,
+        "previous": 209900
+      },
+      {
+        "currentDate": "2026-08-28",
+        "previousDate": "2026-08-21",
+        "current": 152510,
+        "previous": 211550
+      },
+      {
+        "currentDate": "2026-08-29",
+        "previousDate": "2026-08-22",
+        "current": 154120,
+        "previous": 218000
+      },
+      {
+        "currentDate": "2026-08-30",
+        "previousDate": "2026-08-23",
+        "current": 161540,
+        "previous": 211800
+      },
+      {
+        "currentDate": "2026-08-31",
+        "previousDate": "2026-08-24",
+        "current": 158600,
+        "previous": 214800
+      }
+    ],
+    "evidence": [
+      {
+        "id": "E1",
+        "title": "当前周期与前一等长周期汇总",
+        "queries": [
+          {
+            "sql": "SELECT 'TOTAL' AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?)",
+            "parameters": [
+              "2026-08-25",
+              "2026-08-31",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "TOTAL",
+                "numerator": 111906000,
+                "denominator": 0,
+                "rows": 844
+              }
+            ]
+          },
+          {
+            "sql": "SELECT 'TOTAL' AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?)",
+            "parameters": [
+              "2026-08-18",
+              "2026-08-24",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "TOTAL",
+                "numerator": 147010000,
+                "denominator": 0,
+                "rows": 1080
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E2",
+        "title": "区域变化拆解",
+        "queries": [
+          {
+            "sql": "SELECT region AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?) GROUP BY region ORDER BY region",
+            "parameters": [
+              "2026-08-25",
+              "2026-08-31",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "华东",
+                "numerator": 11951000,
+                "denominator": 0,
+                "rows": 116
+              },
+              {
+                "group": "华北",
+                "numerator": 48815000,
+                "denominator": 0,
+                "rows": 359
+              },
+              {
+                "group": "华南",
+                "numerator": 51140000,
+                "denominator": 0,
+                "rows": 369
+              }
+            ]
+          },
+          {
+            "sql": "SELECT region AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?) GROUP BY region ORDER BY region",
+            "parameters": [
+              "2026-08-18",
+              "2026-08-24",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "华东",
+                "numerator": 47055000,
+                "denominator": 0,
+                "rows": 352
+              },
+              {
+                "group": "华北",
+                "numerator": 48815000,
+                "denominator": 0,
+                "rows": 359
+              },
+              {
+                "group": "华南",
+                "numerator": 51140000,
+                "denominator": 0,
+                "rows": 369
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E3",
+        "title": "按日趋势对照",
+        "queries": [
+          {
+            "sql": "SELECT biz_date AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?) GROUP BY biz_date ORDER BY biz_date",
+            "parameters": [
+              "2026-08-18",
+              "2026-08-31",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "2026-08-18",
+                "numerator": 20315000,
+                "denominator": 0,
+                "rows": 151
+              },
+              {
+                "group": "2026-08-19",
+                "numerator": 20090000,
+                "denominator": 0,
+                "rows": 147
+              },
+              {
+                "group": "2026-08-20",
+                "numerator": 20990000,
+                "denominator": 0,
+                "rows": 155
+              },
+              {
+                "group": "2026-08-21",
+                "numerator": 21155000,
+                "denominator": 0,
+                "rows": 162
+              },
+              {
+                "group": "2026-08-22",
+                "numerator": 21800000,
+                "denominator": 0,
+                "rows": 157
+              },
+              {
+                "group": "2026-08-23",
+                "numerator": 21180000,
+                "denominator": 0,
+                "rows": 148
+              },
+              {
+                "group": "2026-08-24",
+                "numerator": 21480000,
+                "denominator": 0,
+                "rows": 160
+              },
+              {
+                "group": "2026-08-25",
+                "numerator": 18259000,
+                "denominator": 0,
+                "rows": 137
+              },
+              {
+                "group": "2026-08-26",
+                "numerator": 15423000,
+                "denominator": 0,
+                "rows": 117
+              },
+              {
+                "group": "2026-08-27",
+                "numerator": 15547000,
+                "denominator": 0,
+                "rows": 120
+              },
+              {
+                "group": "2026-08-28",
+                "numerator": 15251000,
+                "denominator": 0,
+                "rows": 123
+              },
+              {
+                "group": "2026-08-29",
+                "numerator": 15412000,
+                "denominator": 0,
+                "rows": 111
+              },
+              {
+                "group": "2026-08-30",
+                "numerator": 16154000,
+                "denominator": 0,
+                "rows": 111
+              },
+              {
+                "group": "2026-08-31",
+                "numerator": 15860000,
+                "denominator": 0,
+                "rows": 125
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E4",
+        "title": "品类独立拆解",
+        "queries": [
+          {
+            "sql": "SELECT category AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?) GROUP BY category ORDER BY category",
+            "parameters": [
+              "2026-08-25",
+              "2026-08-31",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "洗衣机",
+                "numerator": 37127000,
+                "denominator": 0,
+                "rows": 283
+              },
+              {
+                "group": "热水器",
+                "numerator": 25717000,
+                "denominator": 0,
+                "rows": 276
+              },
+              {
+                "group": "空调",
+                "numerator": 49062000,
+                "denominator": 0,
+                "rows": 285
+              }
+            ]
+          },
+          {
+            "sql": "SELECT category AS group_key, COALESCE(SUM(paid_cents - refund_cents),0) AS num, COALESCE(SUM(0),0) AS den, COUNT(*) AS row_count FROM v_finance_events WHERE biz_date >= ? AND biz_date <= ? AND region IN (?,?,?) GROUP BY category ORDER BY category",
+            "parameters": [
+              "2026-08-18",
+              "2026-08-24",
+              "华东",
+              "华北",
+              "华南"
+            ],
+            "rows": [
+              {
+                "group": "洗衣机",
+                "numerator": 49115000,
+                "denominator": 0,
+                "rows": 366
+              },
+              {
+                "group": "热水器",
+                "numerator": 34210000,
+                "denominator": 0,
+                "rows": 354
+              },
+              {
+                "group": "空调",
+                "numerator": 63685000,
+                "denominator": 0,
+                "rows": 360
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "findings": [
+      "[E1] 净实收：当前 1119060.00元，前期 1470100.00元，变化 -351040.00元；相对变化 -23.88%。",
+      "[E2] 按变化贡献绝对值排序，华东对总体变化的贡献为 -351040.00元。这表示统计变化来源，不证明业务因果。",
+      "[E4] 第二维度为同一范围的独立拆解，不是与第一维度交叉分析；可在计划中加筛选后继续下钻。",
+      "现金流口径，不是会计确认收入。退款可来自更早支付的订单，净实收可能为负。"
+    ],
+    "plannedSqlCount": 7
+  },
+  "narrative": {
+    "summary": "报告已将总体变化按维度分解，以下为相关变化与待验证解释；不能仅凭聚合数据证明因果。",
+    "hypotheses": [
+      {
+        "text": "华东的业务量、金额或分母结构变化可能与总体波动相关，需进一步核验。",
+        "evidenceIds": [
+          "E1",
+          "E2"
+        ],
+        "validation": "按相同口径核对该分类订单和退款来源；固定其他维度后复查，排除数据未齐和观察期不足。"
+      }
+    ]
+  },
+  "narratorMode": "规则解释",
+  "cacheHit": false,
+  "sqlCount": 7,
+  "durationMs": 228
+}

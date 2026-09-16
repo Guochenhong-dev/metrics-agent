@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>经营指标分析与异常归因辅助系统</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><div><div class="brand">METRICS LAB / 经营分析</div><h1>经营指标分析与异常归因辅助系统</h1><p>先核对口径，再看变化，最后验证解释。</p></div><div id="account"></div></header>
+<div id="notice" role="status" hidden></div>
+<section id="loginPanel" class="card login"><h2>进入演示工作台</h2><p class="muted">使用虚构订单与退款数据，体验一次完整经营分析。</p><form id="loginForm"><label>账号<select id="username"><option value="demo">demo · 全区域分析员</option><option value="east">east · 仅华东分析员</option><option value="admin">admin · 管理员</option></select></label><label>密码<input id="password" type="password" value="Demo123!" autocomplete="current-password" required></label><button type="submit">登录</button></form><small>初始密码 Demo123!，可以通过环境变量修改。</small></section>
+<main id="workspace" hidden>
+<div class="topline"><span id="datasetInfo"></span><span id="mode"></span></div>
+<div class="layout">
+<aside>
+<section class="card"><h2>提出经营问题</h2><form id="questionForm"><textarea id="question" maxlength="1000" rows="3" required>最近7天净实收为什么下降，按区域分析</textarea><button id="generate" type="submit">生成分析计划</button></form><p class="muted">相对日期按样本数据末日计算。也可直接修改下方计划。</p><div class="examples"><button type="button" data-question="最近7天净实收为什么下降，按区域分析">净实收下降</button><button type="button" data-question="最近7天华东取消率，按渠道分析">华东取消率</button><button type="button" data-question="2026-07-29至2026-08-04退款额，按品类分析">跨月退款额</button></div></section>
+<section class="card"><h2>核对分析计划</h2><form id="planForm"><label>指标<select id="metric"></select></label><label>主拆解维度<select id="dimension"></select></label><div class="dates"><label>开始日期<input id="startDate" type="date" required></label><label>结束日期<input id="endDate" type="date" required></label></div><label>区域筛选<select id="region"></select></label><label>品类筛选<select id="category"></select></label><label>渠道筛选<select id="channel"></select></label><label>订单状态筛选<select id="status"></select></label><p id="definition" class="definition"></p><button id="execute" type="submit">执行分析</button><p id="planNote" class="muted"></p></form></section>
+<section class="card"><h2>历史报告</h2><select id="history"><option value="">选择已保存报告</option></select><p class="muted">报告、口径、证据和生成时间会保存在本地数据库中。</p><div id="adminArea" hidden><button id="auditButton" class="secondary">查看调用记录</button><pre id="audit"></pre></div></section>
+</aside>
+<div class="results">
+<section id="empty" class="card empty"><div class="emptyIcon">↗</div><h2>让每个结论都有依据</h2><p>生成并核对计划后执行分析。这里会展示周期对比、趋势、分类变化贡献和可核验的查询依据。</p><p class="muted">6个固定指标 · 区域权限隔离 · 单次最多7条聚合SQL · 模型不直接执行SQL</p></section>
+<div id="report" hidden>
+<section class="card"><div class="sectionHead"><div><span class="eyebrow">ANALYSIS REPORT</span><h2 id="reportTitle"></h2></div><span id="anomaly" class="badge"></span></div><p id="period" class="muted"></p><div class="kpis"><div><span>当前周期</span><strong id="current"></strong></div><div><span>前一等长周期</span><strong id="previous"></strong></div><div><span>绝对变化</span><strong id="difference"></strong></div><div><span>相对变化</span><strong id="relative"></strong></div></div><p id="reportMeta" class="muted"></p><p id="reportScope" class="muted"></p></section>
+<section class="card"><h2>每日趋势对照</h2><p class="muted">横轴为当前周期日期，前期按相同天数顺序对齐；空比例表示没有有效分母。</p><div id="trendChart" class="chart"></div></section>
+<section class="card"><div class="sectionHead"><h2 id="breakdownTitle">维度变化贡献</h2><button id="csvExport" class="secondary">导出明细 CSV</button></div><div id="contributionChart" class="chart compact"></div><p id="contributionNote" class="muted"></p><div class="tablewrap"><table><thead><tr><th>分类</th><th>当前</th><th>前期</th><th>总体变化贡献</th><th>贡献率</th><th>继续分析</th></tr></thead><tbody id="groups"></tbody></table></div><details><summary id="secondaryTitle">第二维度独立拆解</summary><div id="secondary"></div></details></section>
+<section class="card"><h2>计算发现与待验证解释</h2><div id="findings"></div><div id="narrative" class="narrative"></div><p id="narratorMode" class="muted"></p></section>
+<section class="card"><div class="sectionHead"><h2>可核验依据</h2><button id="mdExport" class="secondary">下载完整报告</button></div><p class="muted">查询仅包含白名单聚合模板与参数；金额底层以分存储，比例底层保留分子、分母。</p><div id="evidence"></div></section>
+</div>
+</div>
+</div>
+</main>
+<script src="/vendor/echarts.min.js"></script><script src="/app.js"></script>
+</body></html>
